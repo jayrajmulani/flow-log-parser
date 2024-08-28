@@ -33,7 +33,7 @@ def get_lookup_table():
             # CSV Headers are: dstport, protocol, tag 
             try:
                 dstport, protocol, tag = line.strip().split(",")
-                lookup_table[(dstport.strip(),protocol.lower())] = tag
+                lookup_table[(dstport.strip(),protocol.lower())] = tag.lower()
             except:
                 LOG.warning(f"Unable to parse {line}, skipping")
     return lookup_table

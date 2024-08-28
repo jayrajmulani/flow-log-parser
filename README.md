@@ -1,2 +1,1 @@
-# flow-log-parser
-Script to parse flow logs
+# A lightweight flow log parsing utility

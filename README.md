@@ -1,10 +1,13 @@
 # A lightweight flow log parsing utility
 ## Flow Logs
 VPC Flow Logs are a feature provided by cloud service providers like AWS (Amazon Web Services) that allow you to capture information about the IP traffic going to and from network interfaces in a Virtual Private Cloud (VPC). They are useful for network monitoring, security analysis, and troubleshooting.
+
 ## About this project
 This utility processes flow log data by mapping each entry to a specific tag based on a lookup table. It then counts the number of occurrences of each tag and tracks the frequency of various port/protocol combinations. The lookup table assigns tags according to destination ports and protocols.
 
 It supports parsing multiple log files from a directory `inputs`. It is assumed that all logs follow the default version (Version 2) taken from the official documention on [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html). It generates outputs corresponding to each log file and writes the same to an `outputs`. 
+
+---
 
 ### Sample input file 
 ```log
@@ -48,6 +51,10 @@ dstport,protocol,count
 993,tcp,1 
 143,tcp,1
 ```
+
+---
+
+
 ### How to run?
 
 1. Download [python](https://www.python.org/downloads/)
@@ -78,12 +85,18 @@ Note that the script may generate some warnings for unsupported files, versions 
 ```
 6. Check the `outputs` directory, there should be one output analysis file (`.txt`) per input file that was parsed successfuly.
 
+
+---
+
 ### Assumptions
 1. The script only supports default version (Version 2) of flow log records. In case other versions, invalid records are present, they will be ignored (a warning will be logged.)
 2. The `protocol-numbers-1.csv` file was downloaded from [here](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). It is interesting to note that there were some formatting issues and unexpected line breaks, the file in this repository is the fixed correct file. 
 3. Matching is case-insensitive. Tags are also converted to lower case for better consistency.
 4. The default tag is `untagged` for records that don't match any other tag from the lookup table. 
 5. In the lookup table, each port/protocol combination is uniquely mapped to a specific tag.
+
+
+---
 
 ### Additional Tests / Analysis
 - Downloaded VPC Flow Logs from a real AWS Environment, pre-processed them to remove sensitive information like IP addresses (replaced with `127.0.0.1`) and ran the script. 

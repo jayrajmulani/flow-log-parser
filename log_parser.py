@@ -13,6 +13,9 @@ def parse_logs(log_file, protocol_map, lookup_table):
                 continue
             columns = line.split(" ")
             try:
+                if int(columns[0].strip()) != 2:
+                    LOG.warning(f"Unsupported version for line {line}: {columns[0]}, skipping.")
+                    continue
                 dstport, protocol = columns[6], columns[7]
                 protocol = protocol_map[protocol.strip()]
                 tag = "untagged"
